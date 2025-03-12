@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CringeTV - Your Ultimate Entertainment Hub">
     <meta name="keywords" content="CringeTV, streaming, entertainment, channels">
-    <title>Legit Media - Home</title>
+    <title>CringeTV - Home</title>
     <style>
         :root {
             --primary-color: #f69b81;
             --secondary-color: #060625;
-            --accent-color: #2f2f38;
+            --accent-color: #f6fab9;
             --text-color: #ffffff;
             --transition-speed: 0.5s;
             --font-family: 'Open Sans', sans-serif;
@@ -30,12 +30,127 @@
         }
 
         .header {
-            padding: 2rem;
-            text-align: center;
+            left: 0.5rem;
+            top: 0.5rem;
+            padding: 1.2rem;
+            text-align: left;
+            position: fixed;
+            overflow: visible;
+            background: var(--secondary-color);
+            z-index: 1;
+        }
+
+        .static-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 3px,
+                transparent 1px,
+                transparent 2px
+            );
+            background-size: 100% 4px;
+            animation: static 0.2s steps(4) infinite;
+            pointer-events: none;
+        }
+
+        .static-overlay::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                transparent 0%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
+            animation: noise 0.5s steps(10) infinite;
+        }
+
+        .static-overlay::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            background-size: 4px 100%;
+            animation: static 0.2s steps(4) infinite;
+        }
+
+        @keyframes static {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(4px);
+            }
+        }
+
+        @keyframes noise {
+            0% {
+                transform: translate(0, 0);
+            }
+            10% {
+                transform: translate(-5%, -5%);
+            }
+            20% {
+                transform: translate(-10%, 5%);
+            }
+            30% {
+                transform: translate(5%, -10%);
+            }
+            40% {
+                transform: translate(-5%, 15%);
+            }
+            50% {
+                transform: translate(-10%, 5%);
+            }
+            60% {
+                transform: translate(15%, 0);
+            }
+            70% {
+                transform: translate(0, 10%);
+            }
+            80% {
+                transform: translate(-15%, 0);
+            }
+            90% {
+                transform: translate(10%, 5%);
+            }
+            100% {
+                transform: translate(5%, 0);
+            }
+        }
+
+        .static-overlay.fade-out {
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
         }
 
         .logo {
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: bold;
             color: var(--accent-color);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -90,15 +205,35 @@
         }
 
         .channel-title {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .channel-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
         }
 
         .channel-description {
-            font-size: 1.2rem;
-            max-width: 600px;
+            font-size: 1.3rem;
+            max-width: 700px;
             margin-bottom: 2rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .watch-btn {
@@ -139,25 +274,118 @@
             background: var(--accent-color);
         }
 
+        .posts-section {
+            padding: 4rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .post-excerpt {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+
+        .read-more:hover {
+            background: var(--accent-color);
+        }
+
         @media (max-width: 768px) {
             .channel-title {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
             .channel-description {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
-            .watch-btn {
-                padding: 0.8rem 1.6rem;
-                font-size: 1rem;
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1 class="logo">ΛΕΤΖΙΤ ΜΙΝΤΙΑ</h1>
+        <div class="static-overlay"></div>
+        <h1 class="logo">ΛΕΤΖΙΤ</h1>
+        <h1 class="logo">ΜΙΝΤΙΑ</h1>
     </header>
 
     <main class="hero">
@@ -165,23 +393,23 @@
             <div class="carousel-item active">
                 <img src="https://picsum.photos/1920/1080?random=1" alt="Channel 1">
                 <div class="carousel-content">
-                    <h2 class="channel-title">ΚΡΙΝΤΖ TV</h2>
+                    <h2 class="channel-title">ΛΕΓΙΤ webTV</h2>
                     <p class="channel-description">Experience the best of Greek entertainment with our curated selection of content.</p>
-                    <a href="https://cringertv.github.io/krintz-tv/index.html" class="watch-btn">Watch Now</a>
+                    <a href="legit/index.html" class="watch-btn">Watch Now</a>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="https://picsum.photos/1920/1080?random=2" alt="Channel 2">
                 <div class="carousel-content">
-                    <h2 class="channel-title">Potamos News Channel</h2>
-                    <p class="channel-description">Stay updated with the latest news and current affairs from Thessaly, Larisa, Greece</p>
-                    <a href="https://cringertv.github.io/potamos/index.html" class="watch-btn">Watch Now</a>
+                    <h2 class="channel-title">News Channel</h2>
+                    <p class="channel-description">Stay updated with the latest news and current affairs from around the world.</p>
+                    <button class="watch-btn">Coming Soon</button>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="https://picsum.photos/1920/1080?random=3" alt="Channel 3">
                 <div class="carousel-content">
-                    <h2 class="channel-title">Xazokouti Plus</h2>
+                    <h2 class="channel-title">Entertainment Plus</h2>
                     <p class="channel-description">Your gateway to endless entertainment with movies, shows, and more.</p>
                     <button class="watch-btn">Coming Soon</button>
                 </div>
@@ -189,8 +417,8 @@
             <div class="carousel-item">
                 <img src="https://picsum.photos/1920/1080?random=4" alt="Channel 4">
                 <div class="carousel-content">
-                    <h2 class="channel-title">Tech Central</h2>
-                    <p class="channel-description"> Coverage and highlights from major tech events.</p>
+                    <h2 class="channel-title">Sports Central</h2>
+                    <p class="channel-description">Live sports coverage and highlights from major sporting events.</p>
                     <button class="watch-btn">Coming Soon</button>
                 </div>
             </div>
@@ -198,7 +426,45 @@
         <div class="carousel-nav" id="carouselNav"></div>
     </main>
 
+    <section class="posts-section">
+        <h2 class="section-title">Latest Updates</h2>
+        <div class="posts-grid">
+            <article class="post-card">
+                <img src="https://picsum.photos/600/400?random=5" alt="Post 1" class="post-image">
+                <div class="post-content">
+                    <h3 class="post-title">New Shows Coming Soon</h3>
+                    <p class="post-excerpt">Get ready for an exciting lineup of new shows and exclusive content coming to ΚΡΙΝΤΖ TV this season.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </article>
+            <article class="post-card">
+                <img src="https://picsum.photos/600/400?random=6" alt="Post 2" class="post-image">
+                <div class="post-content">
+                    <h3 class="post-title">Special Events</h3>
+                    <p class="post-excerpt">Don't miss out on our special live events and exclusive premieres. Stay tuned for more updates!</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </article>
+            <article class="post-card">
+                <img src="https://picsum.photos/600/400?random=7" alt="Post 3" class="post-image">
+                <div class="post-content">
+                    <h3 class="post-title">Behind the Scenes</h3>
+                    <p class="post-excerpt">Take a peek behind the scenes of your favorite shows and get to know the talented people who make it all possible.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const staticOverlay = document.querySelector('.static-overlay');
+            
+            setTimeout(() => {
+                staticOverlay.classList.add('fade-out');
+            }, 5000);
+        });
+
         const carousel = document.getElementById('channelCarousel');
         const items = carousel.querySelectorAll('.carousel-item');
         const nav = document.getElementById('carouselNav');
